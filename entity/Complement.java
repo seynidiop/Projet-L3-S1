@@ -11,7 +11,7 @@ public class Complement {
 
     private String name;
 
-    private int price;
+    private double price;
 
     private String imagepath;
 

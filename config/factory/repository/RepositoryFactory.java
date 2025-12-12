@@ -18,9 +18,9 @@ public final class RepositoryFactory {
             case BURGER:
                 return BurgerRepositoryImpl.getInstance(database);
 
-        /*case COMPLEMENT:
+        case COMPLEMENT:
             return ComplementRepositoryImpl.getInstance(database);
-
+        /* 
         case MENU:
             return MenuRepositoryImpl.getInstance(database);
 
