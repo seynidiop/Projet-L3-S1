@@ -50,8 +50,26 @@ public static Burger createBurger(){
     Burger burger = new Burger();
     System.out.println("Entrez le nom du burger : ");
     burger.setName(scanner.nextLine());
-    System.out.println("Entrez le prix du burger : ");
-    burger.setPrice(scanner.nextDouble());
+    boolean valid = false;
+    Double price = 0.0;
+    while (!valid) {
+        System.out.print("Entrez le prix du burger : ");
+
+        if (scanner.hasNextDouble()) {
+            price = scanner.nextDouble();
+
+            if (price > 0) {
+                valid = true; 
+            } else {
+                System.out.println("Le prix doit être un nombre positif.");
+            }
+
+        } else {
+            System.out.println("Veuillez entrer un nombre valide.");
+            scanner.next(); // vide l'entrée incorrecte
+        }
+    }
+    burger.setPrice(price);
     scanner.nextLine();
     System.out.println("Entrez la description du burger : ");
     burger.setDescription(scanner.nextLine());
