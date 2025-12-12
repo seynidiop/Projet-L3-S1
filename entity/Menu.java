@@ -12,7 +12,7 @@ public class Menu {
 
     private String description;
 
-    private String imagePath;
+    private String imagepath;
 
     private Double price;
 

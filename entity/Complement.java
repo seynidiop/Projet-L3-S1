@@ -13,7 +13,7 @@ public class Complement {
 
     private int price;
 
-    private String imagePath;
+    private String imagepath;
 
     private boolean archived = false;
 }
