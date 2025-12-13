@@ -13,7 +13,7 @@ public class Zone {
 
     private String nom;
 
-    private int prixLivraison;
+    private Double prixLivraison;
 
     private List<Quartier> quartiers;
     

@@ -25,12 +25,16 @@ public class ComplementServicesImpl implements ComplementServices {
         return result > 0;
     }
     @Override
-    public Optional<Complement> getByName(String name) {
-        return repository.selectByName(name);
+    public Optional<Complement> getById(int id) {
+        return repository.selectById(id);
     }
     @Override
     public List<Complement> selectAll() {
         return repository.selectAll();
+    }
+    @Override
+    public Optional<Complement> getByName(String name) {
+        return repository.selectByName(name);   
     }
 }
 

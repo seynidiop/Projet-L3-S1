@@ -1,6 +1,9 @@
 package seyni.sn.services.impl;
 import seyni.sn.repository.MenuRepository;
 import seyni.sn.services.MenuServices;
+import seyni.sn.entity.*;
+import java.util.List;
+import java.util.Optional;
 public class MenuServicesImpl implements MenuServices {
 
     private static MenuServicesImpl instance;
@@ -15,5 +18,17 @@ public class MenuServicesImpl implements MenuServices {
             instance = new MenuServicesImpl(repository);
         }
         return instance;
+    }
+
+    public boolean insert(Menu menu) {
+        return this.repository.insert(menu)!=0;
+    }
+    @Override
+    public List<Menu> selectAll() {
+        return repository.selectAll();
+    }
+    @Override
+    public Optional<Menu> selectByName(String name) {
+        return repository.selectByName(name);
     }
 }

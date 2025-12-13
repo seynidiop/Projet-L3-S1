@@ -7,6 +7,8 @@ import seyni.sn.entity.Burger;
 
 public interface BurgerServices {
     public boolean createBurger(Burger burger);
-    Optional<Burger> getByName(String name);
+    Optional<Burger> getById(int id);
     List<Burger> selectAll();
+    Optional<Burger> getByName(String name);
+    
 }

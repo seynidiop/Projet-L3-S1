@@ -57,10 +57,23 @@ public class BurgerRepositoryImpl implements BurgerRepository {
         return 0;
     }
     @Override
-    public Optional<Burger> selectByName(String name) {
+    public Optional<Burger> selectById(int id) {
         Connection conn = database.getConnection();
         PreparedStatement ps;
         try {
+            ps = conn.prepareStatement("Select * from burger where id=?");
+            ps.setInt(1, id);
+            return database.<Burger>fetch(ps,this::toEntity);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+    @Override
+    public Optional<Burger> selectByName(String name) {
+        Connection conn = database.getConnection();
+        PreparedStatement ps;
+        try {   
             ps = conn.prepareStatement("Select * from burger where name=?");
             ps.setString(1, name);
             return database.<Burger>fetch(ps,this::toEntity);

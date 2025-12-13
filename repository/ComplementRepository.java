@@ -7,6 +7,7 @@ import seyni.sn.entity.Complement;
 
 public interface ComplementRepository {
     List<Complement> selectAll();
+    Optional<Complement> selectById(int id);
     Optional<Complement> selectByName(String name);
     int insert(Complement complement);
 }

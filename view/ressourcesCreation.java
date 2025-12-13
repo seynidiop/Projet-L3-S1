@@ -4,18 +4,21 @@ import java.util.Scanner;
 
 import seyni.sn.config.database.Database;
 import seyni.sn.config.factory.services.ServicesFactory;
-import seyni.sn.entity.Burger;
-import seyni.sn.entity.entityName;
-import seyni.sn.entity.nomComplement;
-import seyni.sn.entity.Complement;
+import seyni.sn.entity.*;
 import seyni.sn.repository.BurgerRepository;
 import seyni.sn.repository.Impl.*;
 import seyni.sn.services.BurgerServices;
+import seyni.sn.services.ComplementServices;
+import java.util.List;
 
 public class ressourcesCreation {
      private static Scanner scanner = new Scanner(System.in);
     private ressourcesCreation(){
     }
+    private static BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
+    private static List<Burger> existingBurgers = burgerServices.selectAll();
+    private static ComplementServices complementServices=(ComplementServices)ServicesFactory.createServices(entityName.COMPLEMENT);
+    private static List<Complement> existingComplements = complementServices.selectAll();
     public static int menu(){
         System.out.println("MENU");
         System.out.println("1. Ajouter un produit");
@@ -58,14 +61,16 @@ public class ressourcesCreation {
         BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
         do {
             burger.setName(saisieChaine("Entrez le nom du burger : "));
-            if(burgerServices.getByName(burger.getName()).isPresent()){
-                System.out.println("Un burger avec ce nom existe deja. Veuillez en choisir un autre.");
-            }
-
-        } while (burgerServices.getByName(burger.getName()).isPresent());
-
+            
+            existingBurgers.stream()
+                .filter(b -> b.getName().equalsIgnoreCase(burger.getName()))
+                .findFirst()
+                .ifPresent(b -> {
+                    System.out.println("Un burger avec ce nom existe déjà. Veuillez en choisir un autre.");
+                    burger.setName(null); 
+                });
+        } while (burger.getName() == null);
         burger.setPrice(saisiePrix("Entrez le prix du burger : "));
-        scanner.nextLine();
         System.out.println("Entrez la description du burger : ");
         burger.setDescription(scanner.nextLine());
         System.out.println("Entrez le chemin de l'image du burger : ");
@@ -79,6 +84,30 @@ public class ressourcesCreation {
         complement.setPrice(saisiePrix("Entrez le prix du complement : "));
         complement.setImagepath(saisieChaine("Entrez le chemin de l'image du complement : "));
         return complement;
+    }
+    public static Menu createMenu(){
+        Menu menu = new Menu();
+        BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
+        ComplementServices complementServices=(ComplementServices)ServicesFactory.createServices(entityName.COMPLEMENT);
+        menu.setNom(saisieChaine("Entrez le nom du menu : "));
+        menu.setDescription(saisieChaine("Entrez la description du menu : "));
+        menu.setImagepath(saisieChaine("Entrez le chemin de l'image du menu : "));
+        Burger burger;
+        Complement complement;
+        String nom;
+        do {
+            nom = saisieChaine("Entrez le nom du burger : ");
+           burger=findBurgerByName(nom);
+        } while (burger == null);
+        menu.setBurger(burger);
+       
+        do{ nom = saisieChaine("Entrez le nom du complement : ");
+            complement = findComplementByName(nom);
+        }while(complement == null);
+        menu.setComplement(complement);
+        Double prix =burger.getPrice() + complement.getPrice();
+        menu.setPrice(prix);
+        return menu;
     }
     public static String saisieChaine(String message) {
         String nom;
@@ -142,5 +171,28 @@ public class ressourcesCreation {
 
         return nomComplement.values()[choix - 1];
     }
+   public static Burger findBurgerByName(String name) {
+    
 
+    for (Burger burger : existingBurgers) {
+        if (burger.getName() != null &&
+            burger.getName().equalsIgnoreCase(name.trim())) {
+            return burger;
+        }
+    }
+
+    return null;
+    }
+    public static Complement findComplementByName(String name) {
+    
+
+    for (Complement complement : existingComplements) {
+        if (complement.getName() != null &&
+            complement.getName().equalsIgnoreCase(name.trim())) {
+            return complement;
+        }
+    }
+
+    return null;
+}
 }

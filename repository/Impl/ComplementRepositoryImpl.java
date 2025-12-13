@@ -40,6 +40,19 @@ public class ComplementRepositoryImpl implements ComplementRepository {
         return complements;
     }
     @Override
+    public Optional<Complement> selectById(int id) {
+        Connection conn = database.getConnection();
+        PreparedStatement ps;
+        try {
+            ps = conn.prepareStatement("Select * from complement where id=?");
+            ps.setInt(1, id);
+            return database.<Complement>fetch(ps,this::toEntity);
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+    @Override
     public Optional<Complement> selectByName(String name) {
         Connection conn = database.getConnection();
         PreparedStatement ps;

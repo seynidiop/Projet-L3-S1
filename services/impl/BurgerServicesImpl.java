@@ -25,13 +25,19 @@ public class BurgerServicesImpl implements BurgerServices {
     }
     @Override
     
-    public Optional<Burger> getByName(String name) {
-        return this.burgerRepository.selectByName(name);
+    public Optional<Burger> getById(int id) {
+        return this.burgerRepository.selectById(id);
     }
     @Override
     public List<Burger> selectAll() {
         return burgerRepository.selectAll();
     }
+    @Override
+    public Optional<Burger> getByName(String name) {
+        return burgerRepository.selectByName(name);
+    }
+   
+
 }
 
 

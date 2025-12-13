@@ -1,3 +1,9 @@
 package seyni.sn.repository;
+import seyni.sn.entity.Menu;
+import java.util.List;
+import java.util.Optional;
 public interface MenuRepository {
+    public int insert(Menu menu);
+    public List<Menu> selectAll();
+    public Optional<Menu> selectByName(String name);
 }

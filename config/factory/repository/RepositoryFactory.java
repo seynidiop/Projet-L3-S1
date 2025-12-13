@@ -20,10 +20,10 @@ public final class RepositoryFactory {
 
         case COMPLEMENT:
             return ComplementRepositoryImpl.getInstance(database);
-        /* 
+        
         case MENU:
             return MenuRepositoryImpl.getInstance(database);
-
+/* 
         case COMMANDE:
             return CommandeRepositoryImpl.getInstance(database);
 
