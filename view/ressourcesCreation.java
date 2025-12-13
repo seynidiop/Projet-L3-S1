@@ -5,10 +5,9 @@ import java.util.Scanner;
 import seyni.sn.config.database.Database;
 import seyni.sn.config.factory.services.ServicesFactory;
 import seyni.sn.entity.*;
-import seyni.sn.repository.BurgerRepository;
+import seyni.sn.repository.*;
 import seyni.sn.repository.Impl.*;
-import seyni.sn.services.BurgerServices;
-import seyni.sn.services.ComplementServices;
+import seyni.sn.services.*;
 import java.util.List;
 
 public class ressourcesCreation {
@@ -17,6 +16,8 @@ public class ressourcesCreation {
     }
     private static BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
     private static List<Burger> existingBurgers = burgerServices.selectAll();
+    private static ZoneServices zoneServices=(ZoneServices)ServicesFactory.createServices(entityName.ZONE);
+    private static List<Zone> existingZones = zoneServices.selectAll();
     private static ComplementServices complementServices=(ComplementServices)ServicesFactory.createServices(entityName.COMPLEMENT);
     private static List<Complement> existingComplements = complementServices.selectAll();
     public static int menu(){
@@ -119,6 +120,24 @@ public class ressourcesCreation {
         client.setPasswordHash(generatePassword());
         return client;
     }
+    public static Zone createZone(){
+        Zone zone = new Zone();
+        zone.setNom(saisieChaine("Entrez le nom de la zone : "));
+        zone.setPrixLivraison(saisiePrix("Entrez le prix de la livraison :"));
+        return zone;
+    }
+    public static Quartier createQuartier(){
+        Quartier quartier = new Quartier();
+        quartier.setNom(saisieChaine("Entrez le nom du quartier : "));
+        Zone zone;
+        String nom;
+        do {
+            nom = saisieChaine("Entrez le nom de la zone : ");
+           zone=findZoneByName(nom);
+        } while (zone == null);
+        quartier.setZone(zone);
+        return quartier;
+    }
     public static String saisieChaine(String message) {
         String nom;
         while (true) {
@@ -192,6 +211,18 @@ public class ressourcesCreation {
     }
 
     return null;
+    }
+    public static Zone findZoneByName(String name) {
+    
+
+        for (Zone zone : existingZones) {
+            if (zone.getNom() != null &&
+                zone.getNom().equalsIgnoreCase(name)) {
+                return zone;
+            }
+        }
+
+        return null;
     }
     public static Complement findComplementByName(String name) {
     

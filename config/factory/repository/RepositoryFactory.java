@@ -26,16 +26,17 @@ public final class RepositoryFactory {
         
         case CLIENT:
             return ClientRepositoryImpl.getInstance(database);
-/* 
-        case COMMANDE:
-            return CommandeRepositoryImpl.getInstance(database);
-       
-
         case ZONE:
             return ZoneRepositoryImpl.getInstance(database);
 
         case QUARTIER:
             return QuartierRepositoryImpl.getInstance(database);
+/* 
+        case COMMANDE:
+            return CommandeRepositoryImpl.getInstance(database);
+       
+
+       
 
         case LIVRAISON:
             return LivraisonRepositoryImpl.getInstance(database);/* */

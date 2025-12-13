@@ -7,4 +7,6 @@ public class Quartier {
     private int id;
 
     private String nom;
+    
+    private Zone zone;
 }
