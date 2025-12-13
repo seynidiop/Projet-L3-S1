@@ -1,4 +1,8 @@
 package seyni.sn.services.impl;
+import java.util.List;
+import java.util.Optional;
+
+import seyni.sn.entity.*;
 import seyni.sn.repository.ClientRepository;
 import seyni.sn.services.ClientServices;
 public class ClientServicesImpl implements ClientServices {
@@ -15,5 +19,18 @@ public class ClientServicesImpl implements ClientServices {
             instance = new ClientServicesImpl(repository);
         }
         return instance;
+    }
+     @Override
+    public boolean createClient(Client client) {
+        return this.repository.insert(client)!=0;
+    }
+    @Override
+
+    public Optional<Client> getById(int id) {
+        return this.repository.selectById(id);
+    }
+    @Override
+    public List<Client> selectAll() {
+        return repository.selectAll();
     }
 }

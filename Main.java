@@ -11,14 +11,14 @@ import seyni.sn.config.database.Database;
 
 public class Main {
     public static void main(String[] args) {
-        MenuServices menuServices=(MenuServices)ServicesFactory.createServices(entityName.MENU);
-        Menu menu=ressourcesCreation.createMenu();
-        if(menuServices.insert(menu)){
-            System.out.println("Menu a ete cree avec succes!");
+        ClientServices clientServices=(ClientServices)ServicesFactory.createServices(entityName.CLIENT);
+        Client client=ressourcesCreation.createClient();
+        if(clientServices.createClient(client)){
+            System.out.println("Client a ete cree avec succes!");
         }else{
             System.out.println("Echec de la creation du menu.");
         }
-        System.out.println(menuServices.selectAll());
+        System.out.println(clientServices.selectAll());
         
 
     }

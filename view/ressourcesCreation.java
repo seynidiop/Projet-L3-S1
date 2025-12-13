@@ -109,6 +109,16 @@ public class ressourcesCreation {
         menu.setPrice(prix);
         return menu;
     }
+
+    public static Client createClient() {
+        Client client = new Client();
+        client.setFirstName(saisieChaine("Entrez le nom du client : "));
+        client.setLastName(saisieChaine("Entrez le prenom du client : "));
+        client.setPhone(saisieChaine("Entrez le numero de telephone du client : "));
+        client.setEmail(saisieChaine("Entrez l'email du client : "));
+        client.setPasswordHash(generatePassword());
+        return client;
+    }
     public static String saisieChaine(String message) {
         String nom;
         while (true) {
@@ -186,13 +196,24 @@ public class ressourcesCreation {
     public static Complement findComplementByName(String name) {
     
 
-    for (Complement complement : existingComplements) {
-        if (complement.getName() != null &&
-            complement.getName().equalsIgnoreCase(name.trim())) {
-            return complement;
+        for (Complement complement : existingComplements) {
+            if (complement.getName() != null &&
+                complement.getName().equalsIgnoreCase(name.trim())) {
+                return complement;
+            }
         }
-    }
 
-    return null;
+        return null;
+    }
+    public static String generatePassword() {
+    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    StringBuilder pwd = new StringBuilder();
+    java.security.SecureRandom r = new java.security.SecureRandom();
+
+    for (int i = 0; i < 8; i++) {
+        pwd.append(chars.charAt(r.nextInt(chars.length())));
+    }
+    return pwd.toString();
 }
+
 }

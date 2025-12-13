@@ -29,7 +29,7 @@ public class MenuRepositoryImpl implements MenuRepository {
 
     @Override
     public int insert(Menu menu) {
-        String sql = "INSERT INTO menu (nom, description, imagepath, price, burgerid, complementid) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO menu (nom, description, imagepath, price, burgerid, complementid, archived) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = database.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, menu.getNom());
@@ -38,6 +38,7 @@ public class MenuRepositoryImpl implements MenuRepository {
             statement.setDouble(4, menu.getPrice());
             statement.setInt(5, menu.getBurger().getId());
             statement.setInt(6, menu.getComplement().getId());
+            statement.setBoolean(7, menu.isArchived());
             return statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +52,7 @@ public class MenuRepositoryImpl implements MenuRepository {
         Connection conn = database.getConnection();
         PreparedStatement ps;
         try {
-            ps = conn.prepareStatement("select * from complement");
+            ps = conn.prepareStatement("select * from menu");
             return database.<Menu>fetchAll(ps,this::toEntity);
         }  catch (SQLException e) {
             e.printStackTrace();

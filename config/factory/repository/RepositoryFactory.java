@@ -23,12 +23,13 @@ public final class RepositoryFactory {
         
         case MENU:
             return MenuRepositoryImpl.getInstance(database);
+        
+        case CLIENT:
+            return ClientRepositoryImpl.getInstance(database);
 /* 
         case COMMANDE:
             return CommandeRepositoryImpl.getInstance(database);
-
-        case CLIENT:
-            return ClientRepositoryImpl.getInstance(database);
+       
 
         case ZONE:
             return ZoneRepositoryImpl.getInstance(database);
