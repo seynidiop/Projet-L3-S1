@@ -36,11 +36,6 @@ public final class RepositoryFactory {
             return CommandeRepositoryImpl.getInstance(database);
        
 
-        /* 
-             case LIVRAISON:
-            return LivraisonRepositoryImpl.getInstance(database);
-       /* */
-
             default:
             throw new IllegalArgumentException("Unknon Storage: ");
         }

@@ -404,4 +404,70 @@ public class ressourcesCreation {
         return affirmation.values()[choix - 1];
     }
 
+    public static void afficherRessource(entityName entity) {
+        switch (entity) {
+            case BURGER:
+                List<Burger> burgers = burgerServices.selectAll();
+                System.out.println("Liste des Burgers :");
+                for (Burger burger : burgers) {
+                    System.out.println(burger);
+                }
+                break;
+
+            case CLIENT:
+                List<Client> clients = clientServices.selectAll();
+                System.out.println("Liste des Clients :");
+                for (Client client : clients) {
+                    System.out.println(client);
+                }
+                break;
+
+            case ZONE:
+                List<Zone> zones = zoneServices.selectAll();
+                System.out.println("Liste des Zones :");
+                for (Zone zone : zones) {
+                    System.out.println(zone);
+                }
+                break;
+
+            case COMPLEMENT:
+                List<Complement> complements = complementServices.selectAll();
+                System.out.println("Liste des Complements :");
+                for (Complement complement : complements) {
+                    System.out.println(complement);
+                }
+                break;
+
+            default:
+                System.out.println("Affichage non implémenté pour cette ressource.");
+                break;
+        }
+    }
+
+    public static entityName choixRessource() {
+        int choix;
+
+        do {
+            System.out.println("Choisissez une ressource à afficher :");
+            for (int i = 0; i < entityName.values().length; i++) {
+                System.out.println((i + 1) + ". " + entityName.values()[i]);
+            }
+
+            System.out.print("Votre choix : ");
+
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrée invalide. Entrez un numéro.");
+                scanner.next();  
+            }
+
+            choix = scanner.nextInt();
+
+            if (choix < 1 || choix > entityName.values().length) {
+                System.out.println("Numéro hors plage. Réessayez.\n");
+            }
+
+        } while (choix < 1 || choix > entityName.values().length);
+
+        return entityName.values()[choix - 1];
+    }
 }
