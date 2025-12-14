@@ -2,11 +2,10 @@ package seyni.sn.view;
 
 import java.util.Scanner;
 
-import seyni.sn.config.database.Database;
+
 import seyni.sn.config.factory.services.ServicesFactory;
 import seyni.sn.entity.*;
-import seyni.sn.repository.*;
-import seyni.sn.repository.Impl.*;
+
 import seyni.sn.services.*;
 import java.util.List;
 
@@ -16,6 +15,9 @@ public class ressourcesCreation {
     }
     private static BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
     private static List<Burger> existingBurgers = burgerServices.selectAll();
+    private static MenuServices menuServices=(MenuServices)ServicesFactory.createServices(entityName.MENU);
+    private static ClientServices clientServices=(ClientServices)ServicesFactory.createServices(entityName.CLIENT);
+    private static List<Client> existingClients = clientServices.selectAll();
     private static ZoneServices zoneServices=(ZoneServices)ServicesFactory.createServices(entityName.ZONE);
     private static List<Zone> existingZones = zoneServices.selectAll();
     private static ComplementServices complementServices=(ComplementServices)ServicesFactory.createServices(entityName.COMPLEMENT);
@@ -59,7 +61,6 @@ public class ressourcesCreation {
 }
     public static Burger createBurger(){
         Burger burger = new Burger();
-        BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
         do {
             burger.setName(saisieChaine("Entrez le nom du burger : "));
             
@@ -88,8 +89,6 @@ public class ressourcesCreation {
     }
     public static Menu createMenu(){
         Menu menu = new Menu();
-        BurgerServices burgerServices=(BurgerServices)ServicesFactory.createServices(entityName.BURGER);
-        ComplementServices complementServices=(ComplementServices)ServicesFactory.createServices(entityName.COMPLEMENT);
         menu.setNom(saisieChaine("Entrez le nom du menu : "));
         menu.setDescription(saisieChaine("Entrez la description du menu : "));
         menu.setImagepath(saisieChaine("Entrez le chemin de l'image du menu : "));
@@ -99,6 +98,9 @@ public class ressourcesCreation {
         do {
             nom = saisieChaine("Entrez le nom du burger : ");
            burger=findBurgerByName(nom);
+           if(burger == null){
+            System.out.println("Aucun burger trouvé avec ce nom. Veuillez réessayer.");
+           }
         } while (burger == null);
         menu.setBurger(burger);
        
@@ -115,7 +117,16 @@ public class ressourcesCreation {
         Client client = new Client();
         client.setFirstName(saisieChaine("Entrez le nom du client : "));
         client.setLastName(saisieChaine("Entrez le prenom du client : "));
-        client.setPhone(saisieChaine("Entrez le numero de telephone du client : "));
+        String phone;
+        Client client1;
+        do {
+            phone = saisieChaine("Entrez le numero de telephone du client : ");
+            client1 = findClientByPhone(phone);
+            if(client1 != null){
+                System.out.println("Un client avec ce numéro de téléphone existe déjà. Veuillez en choisir un autre.");
+            }
+        } while (client1 == null);
+        client.setPhone(phone);
         client.setEmail(saisieChaine("Entrez l'email du client : "));
         client.setPasswordHash(generatePassword());
         return client;
@@ -137,6 +148,62 @@ public class ressourcesCreation {
         } while (zone == null);
         quartier.setZone(zone);
         return quartier;
+    }
+
+    public static Commande createCommande() {
+        Commande commande = new Commande();
+        Client client = new Client();
+        Complement complement = new Complement();
+        Menu menu = new Menu();
+        Burger burger = new Burger();
+        String var;
+        Double prix =0.0;
+         {
+         do {
+           var=saisieChaine("Entrez le numero de telephone du client : ");
+           client=findClientByPhone(var);
+           if(client == null){
+            System.out.println("Aucun client trouvé avec ce numéro de téléphone. Veuillez réessayer.");
+           }
+        } while (client == null);
+        commande.setClient(client); 
+        produitType produitType=choixProduit();
+        if(produitType==produitType.BURGER){
+            do{
+                var=saisieChaine("Entrez le nom du burger : ");
+                burger = findBurgerByName(var);
+                if(burger==null){
+                    System.out.println("Aucun burger trouvé avec ce nom. Veuillez réessayer.");
+                }
+                commande.setBurger(burger);
+                prix+=burger.getPrice();
+            }while(burger==null);
+            affirmation confirmation=choixAffirmation();
+            if(confirmation==affirmation.OUI){
+                do{
+                    var=selectComplement().toString();
+                    complement = findComplementByName(var);
+                    if(complement==null){
+                        System.out.println("Aucun complement trouvé avec ce nom. Veuillez réessayer.");
+                    }
+                }while(complement==null);
+            commande.setComplement(complement);
+            prix+=complement.getPrice();
+            }
+        else {
+            do {
+                var=saisieChaine("Entrez le nom du menu : ");
+                menu=findMenuByName(var);
+                if(menu == null){
+                    System.out.println("Aucun menu trouvé avec ce nom. Veuillez réessayer.");
+                }
+            } while (menu == null);     
+            commande.setMenu(menu);
+            prix+=menu.getPrice();
+           }
+        commande.setMontantTotal(prix);
+        }
+         return commande;}
     }
     public static String saisieChaine(String message) {
         String nom;
@@ -237,14 +304,104 @@ public class ressourcesCreation {
         return null;
     }
     public static String generatePassword() {
-    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    StringBuilder pwd = new StringBuilder();
-    java.security.SecureRandom r = new java.security.SecureRandom();
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder pwd = new StringBuilder();
+        java.security.SecureRandom r = new java.security.SecureRandom();
 
-    for (int i = 0; i < 8; i++) {
-        pwd.append(chars.charAt(r.nextInt(chars.length())));
+        for (int i = 0; i < 8; i++) {
+            pwd.append(chars.charAt(r.nextInt(chars.length())));
+        }
+        return pwd.toString();
     }
-    return pwd.toString();
-}
+    public String saisirTelephone(Scanner scanner) {
+        String telephone;
+        String regex = "^(77|76)[0-9]{7}$";
+
+        while (true) {
+            System.out.print("Entrez le numéro de téléphone : ");
+            telephone = scanner.nextLine().trim();
+
+            if (telephone.matches(regex)) {
+                return telephone;
+            }
+
+            System.out.println("Numéro invalide. Exemple valide : 771234567");
+        }
+    
+    }
+
+    public static Client findClientByPhone(String phone) {
+    
+
+        for (Client client : existingClients) {
+            if (client.getPhone() != null &&
+                client.getPhone().equalsIgnoreCase(phone.trim())) {
+                return client;
+            }
+        }
+        return null;
+    }
+    
+    public static Menu findMenuByName(String name) {
+    
+
+        for (Menu menu : menuServices.selectAll()) {
+            if (menu.getNom() != null &&
+                menu.getNom().equalsIgnoreCase(name.trim())) {
+                return menu;
+            }
+        }
+        return null;
+    }
+    public static produitType choixProduit() {
+        int choix;
+
+        do {
+            System.out.println("Faites votre choix  :");
+            for (int i = 0; i < produitType.values().length; i++) {
+                System.out.println((i + 1) + ". " + produitType.values()[i]);
+            }
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrée invalide. Entrez un numéro.");
+                scanner.next();  
+            }
+
+            choix = scanner.nextInt();
+
+            if (choix < 1 || choix > produitType.values().length) {
+                System.out.println("Numéro hors plage. Réessayez.\n");
+            }
+
+        } while (choix < 1 || choix > produitType.values().length);
+
+        return produitType.values()[choix - 1];
+    }
+
+    public static affirmation choixAffirmation() {
+        int choix;
+
+        do {
+            System.out.println("Voulez vous ajouter un complement :");
+            for (int i = 0; i < affirmation.values().length; i++) {
+                System.out.println((i + 1) + ". " + affirmation.values()[i]);
+            }
+
+            System.out.print("Votre choix : ");
+
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrée invalide. Entrez un numéro.");
+                scanner.next();  
+            }
+
+            choix = scanner.nextInt();
+
+            if (choix < 1 || choix > affirmation.values().length) {
+                System.out.println("Numéro hors plage. Réessayez.\n");
+            }
+
+        } while (choix < 1 || choix > affirmation.values().length);
+
+        return affirmation.values()[choix - 1];
+    }
 
 }

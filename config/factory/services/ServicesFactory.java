@@ -43,11 +43,6 @@ public final  class ServicesFactory {
                         (QuartierRepository) RepositoryFactory.createRepository(entity);
                 return QuartierServicesImpl.getInstance(quartierRepo);
 
-            case LIVRAISON:
-                LivraisonRepository livraisonRepo =
-                        (LivraisonRepository) RepositoryFactory.createRepository(entity);
-                return LivraisonServicesImpl.getInstance(livraisonRepo);
-
             default:
             throw new IllegalArgumentException("Unknow entity: "+ entity);
         }

@@ -31,15 +31,15 @@ public final class RepositoryFactory {
 
         case QUARTIER:
             return QuartierRepositoryImpl.getInstance(database);
-/* 
+
         case COMMANDE:
             return CommandeRepositoryImpl.getInstance(database);
        
 
-       
-
-        case LIVRAISON:
-            return LivraisonRepositoryImpl.getInstance(database);/* */
+        /* 
+             case LIVRAISON:
+            return LivraisonRepositoryImpl.getInstance(database);
+       /* */
 
             default:
             throw new IllegalArgumentException("Unknon Storage: ");

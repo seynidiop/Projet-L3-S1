@@ -1,7 +1,7 @@
 package seyni.sn.entity;
 
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class Commande{
 
     private int  zoneId;
 
-    private int montantTotal;
+    private Double montantTotal;
 
     private boolean archived = false;
 }

@@ -11,13 +11,12 @@ import seyni.sn.config.database.Database;
 
 public class Main {
     public static void main(String[] args) {
-       ZoneServices zoneServices=(ZoneServices) ServicesFactory.createServices(entityName.ZONE);
-       QuartierServices quartierServices=(QuartierServices) ServicesFactory.createServices(entityName.QUARTIER);
-       Quartier quartier = ressourcesCreation.createQuartier();
-       if(quartierServices.insert(quartier)>0){
-        System.out.println("Quartier ajouté avec succès !");
-       } else {
-        System.out.println("Échec de l'ajout du quartier.");
-       }
+        CommandeServices commandeServices = (CommandeServices) ServicesFactory.createServices(entityName.COMMANDE);
+        Commande commande = ressourcesCreation.createCommande();
+        if(commandeServices.insert(commande) > 0){
+            System.out.println("Commande créée avec succès !");
+        } else {
+            System.out.println("Échec de la création de la commande.");
+        }
     }
 }
