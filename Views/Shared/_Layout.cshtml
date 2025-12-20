@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Brasil Burger</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+
+<header>
+    <nav>
+        <header>
+    <h1>🍔 Brasil Burger</h1>
+    <nav>
+        <a asp-controller="Burger" asp-action="Index">Burgers</a>
+        <a asp-controller="Menu" asp-action="Index">Menus</a>
+        <a asp-controller="Complement" asp-action="Index">Compléments</a>
+        <a href="#" onclick="toggleCart()"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Panier</a>
+    </nav>
+</header>
+
+    </nav>
+</header>
+
+@RenderBody()
+
+<div id="cart" class="cart hidden">
+    <h3>🛒 Panier</h3>
+
+    <div id="cart-items"></div>
+
+    <div class="cart-footer">
+        <div class="cart-total">
+            <strong>Total :</strong>
+            <span id="cart-total">0 FCFA</span>
+        </div>
+
+        <button class="clear-cart" onclick="clearCart()">
+            🧹 Vider le panier
+        </button>
+    </div>
+</div>
+
+
+<script src="~/js/site.js"></script>
+
+</body>
+</html>

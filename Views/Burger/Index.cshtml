@@ -1,0 +1,27 @@
+@model IEnumerable<Projet_L3_S1.Models.burger>
+
+<div class="products">
+@foreach (var b in Model)
+{
+    <div class="product-card">
+        <img src="@b.imagepath" alt="@b.name" />
+
+        <div class="content">
+            <h3>@b.name</h3>
+            <p>@b.description</p>
+            <p class="price">@b.price FCFA</p>
+        </div>
+
+        <button onclick="addToCart(
+            @b.id,
+            '@b.name',
+            @b.price,
+            '@Url.Content(b.imagepath)',
+            'burger'
+        )">
+            Commander
+    </button>
+
+    </div>
+}
+</div>
