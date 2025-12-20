@@ -21,7 +21,7 @@ public partial class commande
 
     public string? modepaiement { get; set; }
 
-    public bool? archived { get; set; }
+    public bool archived { get; set; }
 
     public string? typecons { get; set; }
 

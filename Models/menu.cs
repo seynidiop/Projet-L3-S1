@@ -19,7 +19,7 @@ public partial class menu
 
     public string? imagepath { get; set; }
 
-    public bool? archived { get; set; }
+    public bool archived { get; set; }
 
     public virtual burger? burger { get; set; }
 

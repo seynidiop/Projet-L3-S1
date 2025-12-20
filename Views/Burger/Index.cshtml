@@ -12,15 +12,10 @@
             <p class="price">@b.price FCFA</p>
         </div>
 
-        <button onclick="addToCart(
-            @b.id,
-            '@b.name',
-            @b.price,
-            '@Url.Content(b.imagepath)',
-            'burger'
-        )">
-            Commander
-    </button>
+        <button onclick="addBurger(@b.id)">
+    Commander
+</button>
+
 
     </div>
 }

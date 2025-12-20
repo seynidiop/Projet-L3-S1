@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ProjetL3S1DbContext>();
 builder.Services.AddScoped<IBurgerService, BurgerService>();
 builder.Services.AddScoped<IComplementService, ComplementService>();
-
+builder.Services.AddScoped<ICommandeService, CommandeService>();
 builder.Services.AddScoped<IMenuService, MenuService>();
 
 
@@ -32,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Burger}/{action=Index}/{id?}");
+    pattern: "{controller=Commande}/{action=Index}/{id?}");
 
 app.Run();

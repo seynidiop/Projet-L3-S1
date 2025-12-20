@@ -17,7 +17,7 @@
         <a asp-controller="Burger" asp-action="Index">Burgers</a>
         <a asp-controller="Menu" asp-action="Index">Menus</a>
         <a asp-controller="Complement" asp-action="Index">Compléments</a>
-        <a href="#" onclick="toggleCart()"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Panier</a>
+        
     </nav>
 </header>
 
@@ -26,22 +26,6 @@
 
 @RenderBody()
 
-<div id="cart" class="cart hidden">
-    <h3>🛒 Panier</h3>
-
-    <div id="cart-items"></div>
-
-    <div class="cart-footer">
-        <div class="cart-total">
-            <strong>Total :</strong>
-            <span id="cart-total">0 FCFA</span>
-        </div>
-
-        <button class="clear-cart" onclick="clearCart()">
-            🧹 Vider le panier
-        </button>
-    </div>
-</div>
 
 
 <script src="~/js/site.js"></script>

@@ -35,7 +35,7 @@ function addToCart(id, name, price, image, type) {
 
     const exists = cart.find(p => p.id === id && p.type === type);
     if (exists) {
-        showAlert("⚠️ Ce produit est déjà dans le panier !");
+        alert("Le produit est déjà dans le panier");
         return;
     }
 
@@ -46,21 +46,14 @@ function addToCart(id, name, price, image, type) {
         image,
         type
     });
-
+    alert("✅ Produit ajouté au panier");
     saveCart(cart);
     renderCart();
-    showAlert("✅ Produit ajouté au panier");
+    
 }
 
 /* Afficher un message d'alerte */
-function showAlert(message) {
-    const alert = document.getElementById("alert");
-    alert.innerHTML = message;
-    alert.classList.add("show");
-    setTimeout(() => {
-        alert.classList.remove("show");
-    }, 2000);
-}
+
 
 /* Forcer l'ouverture */
 function openCart() {
@@ -77,6 +70,14 @@ function removeFromCart(id, type) {
     showAlert("🗑️ Produit retiré du panier");
 }
 
+function addBurger(id) {
+    fetch('/Panier/AddBurger?id=' + id, { method: 'POST' })
+        .then(r => {
+            if (!r.ok) throw new Error();
+            showAlert("✅ Burger ajouté");
+        })
+        .catch(() => showAlert("⚠️ Un seul burger autorisé"));
+}
 
 /* Affichage */
 function renderCart() {

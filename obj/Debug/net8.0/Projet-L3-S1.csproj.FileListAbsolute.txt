@@ -104,3 +104,4 @@ C:\Users\DELL\Desktop\Projet-L3-S1-csharp\Projet-L3-S1\obj\Debug\net8.0\refint\P
 C:\Users\DELL\Desktop\Projet-L3-S1-csharp\Projet-L3-S1\obj\Debug\net8.0\Projet-L3-S1.pdb
 C:\Users\DELL\Desktop\Projet-L3-S1-csharp\Projet-L3-S1\obj\Debug\net8.0\Projet-L3-S1.genruntimeconfig.cache
 C:\Users\DELL\Desktop\Projet-L3-S1-csharp\Projet-L3-S1\obj\Debug\net8.0\ref\Projet-L3-S1.dll
+C:\Users\DELL\Desktop\Projet-L3-S1-csharp\Projet-L3-S1\obj\Debug\net8.0\Projet-L3-S1.sourcelink.json

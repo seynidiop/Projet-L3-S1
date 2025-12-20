@@ -13,7 +13,7 @@ public partial class complement
 
     public string? imagepath { get; set; }
 
-    public bool? archived { get; set; }
+    public bool archived { get; set; }
 
     public virtual ICollection<commande> commande { get; set; } = new List<commande>();
 

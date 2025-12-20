@@ -1,0 +1,101 @@
+@model IEnumerable<Projet_L3_S1.Models.commande>
+
+@{
+    ViewData["Title"] = "Nouvelle Commande";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title">Prendre une Commande - Brasil Burger</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Client</label>
+                        <select asp-for="clientid" class="form-select" asp-items="ViewBag.clientid">
+                            <option value="">-- Sélectionner le client --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Mode de consommation</label>
+                        <select asp-for="typecons" class="form-select">
+                            @foreach (var item in ViewBag.TypeCons) {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Burger Simple</label>
+                        <select asp-for="burgerid" class="form-select price-trigger" id="burgerSelect">
+                            <option value="" data-price="0">-- Aucun --</option>
+                            @foreach (var b in ViewBag.burgers) {
+                                <option value="@b.id" data-price="@b.prix">@b.nom (@b.prix €)</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-1 text-center d-flex align-items-center justify-content-center">
+                        <span class="badge bg-secondary">OU</span>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Menu Complet</label>
+                       <select asp-for="menuid" class="form-select price-trigger" id="menuSelect">
+                            <option value="" data-price="0">-- Aucun --</option>
+                            @foreach (var m in ViewBag.menus) {
+                                <option value="@m.id" data-price="@m.prixTotal">@m.nom (@m.prixTotal €)</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Complément (Frites/Boisson)</label>
+                        <select asp-for="complementid" class="form-select price-trigger" id="complementSelect">
+                            <option value="" data-price="0">-- Aucun --</option>
+                            @foreach (var c in ViewBag.complements) {
+                                <option value="@c.id" data-price="@c.prix">@c.nom (@c.prix €)</option>
+                            }
+                        </select>
+                    </div>
+                    <input asp-for="montanttotal" id="totalInput" class="form-control" type="number" step="0.01" readonly />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Mode de Paiement</label>
+                        <select asp-for="modepaiement" class="form-select">
+                             @foreach (var item in ViewBag.ModesPaiement) {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                         <label class="form-label">Montant Total (€)</label>
+                         <input asp-for="montanttotal" class="form-control" type="number" step="0.01" placeholder="Calculé automatiquement..." />
+                    </div>
+                </div>
+
+                <div class="mt-4 shadow-sm p-3 bg-light rounded">
+                    <button type="submit" class="btn btn-success btn-lg w-100">
+                        <i class="bi bi-check-circle"></i> Valider la Commande
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100 mt-2">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
