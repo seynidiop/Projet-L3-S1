@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: #020617;
+            padding: 2rem 3rem;
+            border-radius: 14px;
+            box-shadow: 0 20px 40px rgba(0,0,0,.5);
+            text-align: center;
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>{{ title }}</h1>
+        <p>{{ status }}</p>
+        <small>Symfony est vivant sur Render 🐳🔥</small>
+    </div>
+</body>
+</html>
