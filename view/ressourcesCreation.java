@@ -153,12 +153,9 @@ public class ressourcesCreation {
     public static Commande createCommande() {
         Commande commande = new Commande();
         Client client = new Client();
-        Complement complement = new Complement();
-        Menu menu = new Menu();
-        Burger burger = new Burger();
         String var;
         Double prix =0.0;
-         {
+         
          do {
            var=saisieChaine("Entrez le numero de telephone du client : ");
            client=findClientByPhone(var);
@@ -167,44 +164,11 @@ public class ressourcesCreation {
            }
         } while (client == null);
         commande.setClient(client); 
-        produitType produitType=choixProduit();
-        if(produitType==produitType.BURGER){
-            do{
-                var=saisieChaine("Entrez le nom du burger : ");
-                burger = findBurgerByName(var);
-                if(burger==null){
-                    System.out.println("Aucun burger trouvé avec ce nom. Veuillez réessayer.");
-                }
-                commande.setBurger(burger);
-                prix+=burger.getPrice();
-            }while(burger==null);
-            affirmation confirmation=choixAffirmation();
-            if(confirmation==affirmation.OUI){
-                do{
-                    var=selectComplement().toString();
-                    complement = findComplementByName(var);
-                    if(complement==null){
-                        System.out.println("Aucun complement trouvé avec ce nom. Veuillez réessayer.");
-                    }
-                }while(complement==null);
-            commande.setComplement(complement);
-            prix+=complement.getPrice();
-            }
-        else {
-            do {
-                var=saisieChaine("Entrez le nom du menu : ");
-                menu=findMenuByName(var);
-                if(menu == null){
-                    System.out.println("Aucun menu trouvé avec ce nom. Veuillez réessayer.");
-                }
-            } while (menu == null);     
-            commande.setMenu(menu);
-            prix+=menu.getPrice();
-           }
+        prix = ajouterProduitACommande(commande);
         commande.setMontantTotal(prix);
-        }
+        commande.setModePaiement(choisirModePaiement().toString());
          return commande;}
-    }
+    
     public static String saisieChaine(String message) {
         String nom;
         while (true) {
@@ -470,4 +434,89 @@ public class ressourcesCreation {
 
         return entityName.values()[choix - 1];
     }
+    public static double ajouterProduitACommande(Commande commande) {
+
+    double prix = 0;
+    String var;
+
+    produitType typeProduit = choixProduit();
+
+    if (typeProduit == produitType.BURGER) {
+
+        Burger burger;
+        do {
+            var = saisieChaine("Entrez le nom du burger : ");
+            burger = findBurgerByName(var);
+
+            if (burger == null) {
+                System.out.println("Aucun burger trouvé avec ce nom. Veuillez réessayer.");
+            }
+        } while (burger == null);
+
+        commande.setBurger(burger);
+        prix += burger.getPrice();
+
+        affirmation confirmation = choixAffirmation();
+        if (confirmation == affirmation.OUI) {
+
+            Complement complement;
+            do {
+                var = selectComplement().toString();
+                complement = findComplementByName(var);
+
+                if (complement == null) {
+                    System.out.println("Aucun complément trouvé avec ce nom. Veuillez réessayer.");
+                }
+            } while (complement == null);
+
+            commande.setComplement(complement);
+            prix += complement.getPrice();
+        }
+
+    } else { // MENU
+
+        Menu menu;
+        do {
+            var = saisieChaine("Entrez le nom du menu : ");
+            menu = findMenuByName(var);
+
+            if (menu == null) {
+                System.out.println("Aucun menu trouvé avec ce nom. Veuillez réessayer.");
+            }
+        } while (menu == null);
+
+        commande.setMenu(menu);
+        prix += menu.getPrice();
+    }
+
+    return prix;
+}
+
+public static typePayement choisirModePaiement() {
+    int choix;
+
+    do {
+        System.out.println("Choisissez un mode de paiement :");
+        for (int i = 0; i < typePayement.values().length; i++) {
+            System.out.println((i + 1) + ". " + typePayement.values()[i]);
+        }
+
+        System.out.print("Votre choix : ");
+
+        while (!scanner.hasNextInt()) {
+            System.out.println("Entrée invalide. Entrez un numéro.");
+            scanner.next();  
+        }
+
+        choix = scanner.nextInt();
+
+        if (choix < 1 || choix > typePayement.values().length) {
+            System.out.println("Numéro hors plage. Réessayez.\n");
+        }
+
+    } while (choix < 1 || choix > typePayement.values().length);
+
+    return typePayement.values()[choix - 1];
+
+}
 }

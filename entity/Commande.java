@@ -19,11 +19,11 @@ public class Commande{
 
     private Burger burger;
 
-    private Date dateCommande;
+    private Date dateCommande=new Date();
 
-    private StatusCommande statut;
+    private String statut =StatusCommande.EnCours.name();
 
-    private typePayement modePaiement;
+    private String modePaiement;
 
     private int  zoneId;
 

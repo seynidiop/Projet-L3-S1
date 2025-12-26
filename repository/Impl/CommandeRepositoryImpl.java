@@ -38,30 +38,30 @@ public class CommandeRepositoryImpl implements CommandeRepository {
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, commande.getClient().getId());
-            statement.setInt(2, commande.getClient().getId());
+          
 
             if (commande.getMenu() != null) {
-                statement.setInt(3, commande.getMenu().getId());
+                statement.setInt(2, commande.getMenu().getId());
+            } else {
+                statement.setNull(2, Types.INTEGER);
+            }
+
+            if (commande.getComplement() != null) {
+                statement.setInt(3, commande.getComplement().getId());
             } else {
                 statement.setNull(3, Types.INTEGER);
             }
 
-            if (commande.getComplement() != null) {
-                statement.setInt(4, commande.getComplement().getId());
+            if (commande.getBurger() != null) {
+                statement.setInt(4, commande.getBurger().getId());
             } else {
                 statement.setNull(4, Types.INTEGER);
             }
-
-            if (commande.getBurger() != null) {
-                statement.setInt(5, commande.getBurger().getId());
-            } else {
-                statement.setNull(5, Types.INTEGER);
-            }
-            statement.setTimestamp(6, new Timestamp(commande.getDateCommande().getTime()));
-            statement.setString(7, commande.getStatut().name());
-            statement.setString(8, commande.getModePaiement().name());
-            statement.setDouble(9, commande.getMontantTotal());
-            statement.setBoolean(10, commande.isArchived());
+            statement.setTimestamp(5, new Timestamp(commande.getDateCommande().getTime()));
+            statement.setString(6, commande.getStatut());
+            statement.setString(7, commande.getModePaiement());
+            statement.setDouble(8, commande.getMontantTotal());
+            statement.setBoolean(9, commande.isArchived());
 
             return statement.executeUpdate();
 
@@ -121,8 +121,8 @@ public class CommandeRepositoryImpl implements CommandeRepository {
         commande.setComplement(complementServices.getById(rs.getInt("complementid")).orElse(null));
         commande.setBurger(burgerServices.getById(rs.getInt("burgerid")).orElse(null));
         commande.setDateCommande(new Date(rs.getTimestamp("datecommande").getTime()));
-        commande.setStatut(StatusCommande.valueOf(rs.getString("statut")));
-        commande.setModePaiement(typePayement.valueOf(rs.getString("modepaiement")));
+        commande.setStatut((rs.getString("statut")));
+        commande.setModePaiement((rs.getString("modepaiement")));
         commande.setMontantTotal(rs.getDouble("montanttotal"));
         commande.setArchived(rs.getBoolean("archived"));
 

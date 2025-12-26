@@ -1,13 +1,12 @@
 package seyni.sn;
 
-import java.sql.Connection;
-import seyni.sn.config.factory.database.DatabaseFactory;
+
 import seyni.sn.config.factory.services.ServicesFactory;
 import seyni.sn.services.*;
 import seyni.sn.view.ressourcesCreation;
 import seyni.sn.entity.*;
 //import seyni.sn.config.factory.database.EntityManager;
-import seyni.sn.config.database.Database;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -42,6 +41,10 @@ public class Main {
                         case MENU:
                             Menu menu = ressourcesCreation.createMenu();
                             menuServices.insert(menu);
+                            break;
+                        case COMMANDE:
+                            Commande commande = ressourcesCreation.createCommande();
+                            commandeServices.insert(commande);
                             break;
                         case ZONE:
                             Zone zone = ressourcesCreation.createZone();
