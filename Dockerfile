@@ -1,28 +1,25 @@
-FROM php:8.4-cli
+# Image PHP 8.4 avec Apache
+FROM php:8.4-apache
 
-WORKDIR /app
-
-# Dépendances système + PostgreSQL
+# Installation des extensions pour PostgreSQL et Symfony
 RUN apt-get update && apt-get install -y \
-    git unzip libpq-dev \
- && docker-php-ext-install pdo pdo_pgsql
+    libicu-dev libpq-dev libzip-dev zip unzip git \
+    && docker-php-ext-install intl pdo pdo_pgsql zip
 
-# Installer Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Configuration d'Apache pour pointer vers /public
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite
 
-# Copier le projet
+# Installation de Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copie du code
+WORKDIR /var/www/html
 COPY . .
 
-# Créer les dossiers nécessaires à Symfony
-RUN mkdir -p var/cache var/log
+# Installation des dépendances sans les scripts (pour éviter les erreurs de build)
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
-# Installer les dépendances PHP
-RUN composer install --no-dev --optimize-autoloader
+# Droits sur les dossiers de cache
 
-# Nettoyer le cache Symfony (sans bloquer le build)
-RUN php bin/console cache:clear --env=prod || true
-
-EXPOSE 8080
-
-# IMPORTANT : Render fournit $PORT
-CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
