@@ -15,16 +15,18 @@ class Commande
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    private ?burger $burger = null;
+    #[ORM\JoinColumn(name: "burgerid", referencedColumnName: "id", nullable: true)]
+    private ?Burger $burger = null;
 
     #[ORM\ManyToOne]
-    private ?menu $menu = null;
+    #[ORM\JoinColumn(name: "menuid", referencedColumnName: "id", nullable: true)]
+
+    private ?Menu $menu = null;
 
     #[ORM\ManyToOne]
-    private ?complement $complement = null;
+    #[ORM\JoinColumn(name: "complementid", referencedColumnName: "id", nullable: true)]
+    private ?Complement $complement = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
-    private ?string $price = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $datecommande = null;
@@ -45,61 +47,52 @@ class Commande
     private ?bool $archived = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?client $client = null;
+    #[ORM\JoinColumn(name: "clientid", referencedColumnName: "id", nullable: true)]
+
+    private ?Client $client = null;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBurger(): ?burger
+    public function getBurger(): ?Burger
     {
         return $this->burger;
     }
 
-    public function setBurger(?burger $burger): static
+    public function setBurger(?Burger $burger): static
     {
         $this->burger = $burger;
 
         return $this;
     }
 
-    public function getMenu(): ?menu
+    public function getMenu(): ?Menu
     {
         return $this->menu;
     }
 
-    public function setMenu(?menu $menu): static
+    public function setMenu(?Menu $menu): static
     {
         $this->menu = $menu;
 
         return $this;
     }
 
-    public function getComplement(): ?complement
+    public function getComplement(): ?Complement
     {
         return $this->complement;
     }
 
-    public function setComplement(?complement $complement): static
+    public function setComplement(?Complement $complement): static
     {
         $this->complement = $complement;
 
         return $this;
     }
 
-    public function getPrice(): ?string
-    {
-        return $this->price;
-    }
-
-    public function setPrice(string $price): static
-    {
-        $this->price = $price;
-
-        return $this;
-    }
 
     public function getDatecommande(): ?\DateTimeImmutable
     {

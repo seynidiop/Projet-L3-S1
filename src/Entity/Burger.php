@@ -26,7 +26,7 @@ class Burger
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagepath = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "archived", type: "boolean", nullable: true)]
     private ?bool $isArchived = null;
 
     public function getId(): ?int

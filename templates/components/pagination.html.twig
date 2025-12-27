@@ -1,0 +1,42 @@
+{% if totalPages > 1 %}
+<div class="pagination">
+    <div class="pagination-info">
+        Page {{ currentPage }} sur {{ totalPages }}
+    </div>
+    
+    <div class="pagination-buttons">
+        {# Bouton Précédent #}
+        
+        {% if currentPage > 1 %}
+            <a href="{{ path(pathName, app.request.query.all|merge({page: currentPage - 1})) }}" class="btn btn-secondary btn-sm">
+                ← Précédent
+            </a>
+        {% else %}
+            <span class="btn btn-secondary btn-sm disabled">
+                ← Précédent
+            </span>
+        {% endif %}
+        
+        {# Boutons de pages #}
+        <div class="btn-group" role="group">
+            {% for page in 1..totalPages %}
+                <a href="{{ path(pathName, app.request.query.all|merge({page: page})) }}" 
+                   class="btn btn-outline-primary btn-sm {{ page == currentPage ? 'active' : '' }}">
+                    {{ page }}
+                </a>
+            {% endfor %}
+        </div>
+        
+        {# Bouton Suivant #}
+        {% if currentPage < totalPages %}
+            <a href="{{ path(pathName, app.request.query.all|merge({page: currentPage + 1})) }}" class="btn btn-secondary btn-sm">
+                Suivant →
+            </a>
+        {% else %}
+            <span class="btn btn-secondary btn-sm disabled">
+                Suivant →
+            </span>
+        {% endif %}
+    </div>
+</div>
+{% endif %}

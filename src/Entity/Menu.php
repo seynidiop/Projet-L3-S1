@@ -20,13 +20,13 @@ class Menu
     private ?string $description = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?burger $burgerid = null;
+    #[ORM\JoinColumn(name: "burgerid", referencedColumnName: "id", nullable: true)]
+    private ?Burger $burgerid = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?complement $complement = null;
+    #[ORM\JoinColumn(name: "complementid", referencedColumnName: "id", nullable: true)]
 
+    private ?Complement $complement = null;
     #[ORM\Column(length: 255)]
     private ?string $imagepath = null;
 

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Employés{% endblock %}
+
+{% block body %}
+<div class="content-container">
+    {% if commandes is not empty %}
+        <h1 class="page-title">Liste des commandes</h1>
+        <div class="table-container">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom Client</th>
+                        <th>Numero Client</th>
+                        <th>Nature</th>
+                        <th>Complement</th>
+                        <th>Etat</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for commande in commandes %}
+                        <tr>
+                            <td>{{ commande.id }}</td>
+                            <td>{{ commande.nomClient }}</td>
+                            <td>{{ commande.numeroClient }}</td>
+                            <td>{{ commande.nature }}</td>
+                            <td>{{ commande.complement }}</td>
+                            <td>{{ commande.etat }}</td>
+                            <td>{{ commande.date|date("d/m/y") }}</td>
+                            <td>{{ commande.montant }}</td>
+                            <td>{{ commande.type }}</td>
+                            <td>{{ commande.statut }}</td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h1>LA LISTE EST VIDE</h1>
+        </div>
+    {% endif %}
+    
+    {% include 'components/pagination.html.twig' with {
+        'currentPage': currentPage,
+        'totalPages': totalPages,
+        'pathName': 'app_commande_list'
+    } %}
+</div>
+{% endblock %}
