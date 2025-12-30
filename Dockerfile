@@ -1,25 +1,46 @@
 # Image PHP 8.4 avec Apache
 FROM php:8.4-apache
 
-# Installation des extensions pour PostgreSQL et Symfony
+# Installation des dépendances système
 RUN apt-get update && apt-get install -y \
-    libicu-dev libpq-dev libzip-dev zip unzip git \
-    && docker-php-ext-install intl pdo pdo_pgsql zip
+    libicu-dev \
+    libpq-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-install intl pdo pdo_pgsql zip \
+    && rm -rf /var/lib/apt/lists/*
 
-# Configuration d'Apache pour pointer vers /public
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
+# Activation de mod_rewrite
 RUN a2enmod rewrite
+
+# Configuration d'Apache pour Symfony (/public)
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf \
+    /etc/apache2/apache2.conf
 
 # Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copie du code
+# Dossier de travail
 WORKDIR /var/www/html
+
+# Copie du projet
 COPY . .
 
-# Installation des dépendances sans les scripts (pour éviter les erreurs de build)
-RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
+# Permissions (CRITIQUE pour Symfony)
+RUN chown -R www-data:www-data var public
 
-# Droits sur les dossiers de cache
+# Installation des dépendances
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+# Nettoyage et warmup du cache prod (OBLIGATOIRE)
+RUN php bin/console cache:clear --env=prod
+RUN php bin/console cache:warmup --env=prod
+
+# Port pour Render
+EXPOSE 10000
