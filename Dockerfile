@@ -33,6 +33,10 @@ WORKDIR /var/www/html
 COPY . .
 
 
+# Création des dossiers Symfony + permissions
+RUN mkdir -p var public \
+    && chown -R www-data:www-data var public
+
 
 # Installation des dépendances
 RUN composer install --no-dev --optimize-autoloader --no-interaction
