@@ -4,6 +4,23 @@
 
 {% block body %}
 <div class="content-container">
+ {{form_start(formSearch)}}
+            <div class="search-container">
+                
+                    <div class="col-md-3">
+                        {{ form_widget(formSearch.phone) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_widget(formSearch.produitType) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_widget(formSearch.datecommande) }}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_widget(formSearch.btnSubmit) }}
+                    </div>
+            </div>
+            {{form_end(formSearch)}}
     {% if commandes is not empty %}
         <h1 class="page-title">Liste des commandes</h1>
         <div class="table-container">
@@ -15,11 +32,10 @@
                         <th>Numero Client</th>
                         <th>Nature</th>
                         <th>Complement</th>
-                        <th>Etat</th>
                         <th>Date</th>
                         <th>Montant</th>
                         <th>Type</th>
-                        <th>Statut</th>
+                        <th>Etat</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,11 +47,10 @@
                             <td>{{ commande.numeroClient }}</td>
                             <td>{{ commande.nature }}</td>
                             <td>{{ commande.complement }}</td>
-                            <td>{{ commande.etat }}</td>
                             <td>{{ commande.date|date("d/m/y") }}</td>
                             <td>{{ commande.montant }}</td>
                             <td>{{ commande.type }}</td>
-                            <td>{{ commande.statut }}</td>
+                            <td>{{ commande.etat }}</td>
                             
                         </tr>
                     {% endfor %}

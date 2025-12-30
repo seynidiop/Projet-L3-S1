@@ -51,6 +51,12 @@ class Commande
 
     private ?Client $client = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    private ?Zone $zone = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $produitType = null;
+
 
     public function getId(): ?int
     {
@@ -174,6 +180,30 @@ class Commande
     public function setClient(?client $client): static
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getZone(): ?Zone
+    {
+        return $this->zone;
+    }
+
+    public function setZone(?Zone $zone): static
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    public function getProduitType(): ?string
+    {
+        return $this->produitType;
+    }
+
+    public function setProduitType(string $produitType): static
+    {
+        $this->produitType = $produitType;
 
         return $this;
     }

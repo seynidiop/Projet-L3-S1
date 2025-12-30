@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - Gestion Employés{% endblock %}
+
+{% block body %}
+<div class="content-container">
+    <h1 class="page-title">Tableau de Bord</h1>
+    
+    {# Stats Cards Grid #}
+    <div class="stats-grid">
+        {# Card 1: Commandes en cours #}
+        <div class="stat-card stat-card-warning">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-label">Commandes en cours</h3>
+                {# Replaced dynamic value with static random value #}
+                <p class="stat-value">17</p>
+                <p class="stat-description">De la journée</p>
+            </div>
+        </div>
+
+        {# Card 2: Commandes validées #}
+        <div class="stat-card stat-card-success">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-label">Commandes validées</h3>
+                {# Replaced dynamic value with static random value #}
+                <p class="stat-value">52</p>
+                <p class="stat-description">De la journée</p>
+            </div>
+        </div>
+
+        {# Card 3: Recettes journalières #}
+        <div class="stat-card stat-card-primary">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-label">Recettes journalières</h3>
+                {# Replaced dynamic value with static random value #}
+                <p class="stat-value">3 245 €</p>
+                <p class="stat-description">Total du jour</p>
+            </div>
+        </div>
+
+        {# Card 4: Commandes annulées #}
+        <div class="stat-card stat-card-danger">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-label">Commandes annulées</h3>
+                {# Replaced dynamic value with static random value #}
+                <p class="stat-value">5</p>
+                <p class="stat-description">Du jour</p>
+            </div>
+        </div>
+    </div>
+
+    {# Burgers les plus vendus #}
+    <div class="best-sellers-section">
+        <h2 class="section-title">Burgers les plus vendus du jour</h2>
+        <div class="best-sellers-container">
+            {# Replaced dynamic data with static random burger data #}
+            <div class="burgers-list">
+                <div class="burger-item">
+                    <div class="burger-rank">1</div>
+                    <div class="burger-info">
+                        <h4 class="burger-name">Burger Signature</h4>
+                        <p class="burger-price">12.50 €</p>
+                    </div>
+                    <div class="burger-stats">
+                        <div class="burger-sales">
+                            <span class="sales-number">34</span>
+                            <span class="sales-label">ventes</span>
+                        </div>
+                        <div class="burger-bar">
+                            <div class="burger-bar-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="burger-item">
+                    <div class="burger-rank">2</div>
+                    <div class="burger-info">
+                        <h4 class="burger-name">Burger Fromage Deluxe</h4>
+                        <p class="burger-price">10.90 €</p>
+                    </div>
+                    <div class="burger-stats">
+                        <div class="burger-sales">
+                            <span class="sales-number">28</span>
+                            <span class="sales-label">ventes</span>
+                        </div>
+                        <div class="burger-bar">
+                            <div class="burger-bar-fill" style="width: 82%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="burger-item">
+                    <div class="burger-rank">3</div>
+                    <div class="burger-info">
+                        <h4 class="burger-name">Burger Poulet Crispy</h4>
+                        <p class="burger-price">9.50 €</p>
+                    </div>
+                    <div class="burger-stats">
+                        <div class="burger-sales">
+                            <span class="sales-number">23</span>
+                            <span class="sales-label">ventes</span>
+                        </div>
+                        <div class="burger-bar">
+                            <div class="burger-bar-fill" style="width: 68%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="burger-item">
+                    <div class="burger-rank">4</div>
+                    <div class="burger-info">
+                        <h4 class="burger-name">Burger Végétarien Bio</h4>
+                        <p class="burger-price">8.90 €</p>
+                    </div>
+                    <div class="burger-stats">
+                        <div class="burger-sales">
+                            <span class="sales-number">19</span>
+                            <span class="sales-label">ventes</span>
+                        </div>
+                        <div class="burger-bar">
+                            <div class="burger-bar-fill" style="width: 56%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="burger-item">
+                    <div class="burger-rank">5</div>
+                    <div class="burger-info">
+                        <h4 class="burger-name">Burger BBQ Smokehouse</h4>
+                        <p class="burger-price">11.50 €</p>
+                    </div>
+                    <div class="burger-stats">
+                        <div class="burger-sales">
+                            <span class="sales-number">14</span>
+                            <span class="sales-label">ventes</span>
+                        </div>
+                        <div class="burger-bar">
+                            <div class="burger-bar-fill" style="width: 41%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Recent Activity Section - Optional #}
+    <div class="recent-activity-section">
+        <h2 class="section-title">Activité récente</h2>
+        <div class="activity-grid">
+            {# Replaced with static activity data #}
+            <div class="activity-card">
+                <div class="activity-time">Il y a 3 min</div>
+                <div class="activity-message">Nouvelle commande validée - Burger Signature x2</div>
+            </div>
+            <div class="activity-card">
+                <div class="activity-time">Il y a 8 min</div>
+                <div class="activity-message">Commande #1567 en cours de préparation</div>
+            </div>
+            <div class="activity-card">
+                <div class="activity-time">Il y a 15 min</div>
+                <div class="activity-message">Commande #1566 livrée avec succès</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

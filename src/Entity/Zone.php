@@ -34,10 +34,17 @@ class Zone
     #[ORM\OneToMany(targetEntity: Livraison::class, mappedBy: 'zone')]
     private Collection $livraisons;
 
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'zone')]
+    private Collection $commandes;
+
     public function __construct()
     {
         $this->quartiers = new ArrayCollection();
         $this->livraisons = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +130,36 @@ class Zone
             // set the owning side to null (unless already changed)
             if ($livraison->getZone() === $this) {
                 $livraison->setZone(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setZone($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getZone() === $this) {
+                $commande->setZone(null);
             }
         }
 

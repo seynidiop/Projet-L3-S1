@@ -7,8 +7,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\ClientRepository;
 use App\Repository\CommandeRepository;
 use App\DTO\CommandeDTO;
+use App\DTO\CommandeSearchDTO;
 
 class CommandeController extends AbstractController
 {
@@ -17,14 +19,51 @@ class CommandeController extends AbstractController
     {
     }
 
-    private const limit=5;
+    private const limit=3;
 
     #[Route('/commande/list', name: 'app_commande_list')]
     public function list(Request $request): Response
     {   
-        $page=$request->query->get("page",1);
+        $filtre = [];
+         $searchFormDTO = new CommandeSearchDTO();
+        $form = $this->createForm(\App\Form\CommandeSearchType::class, $searchFormDTO,[
+            'method' => 'GET',
+            'csrf_protection' => false,
+        ]);
+        $form->handleRequest($request);
+         $page=$request->query->get("page",1);
         $offset=($page-1)*self::limit;
-        $commandes = $this->commandeRepository->findAll();
+        $commandes = $this->commandeRepository->findBy($filtre,["id"=>"DESC"],self::limit,$offset);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($searchFormDTO->phone !== null) {
+               $commandes = array_filter($commandes, function ($commande) use ($searchFormDTO) {
+                return $commande->getClient()
+                    && str_contains(
+                        $commande->getClient()->getPhone(),
+                        $searchFormDTO->phone
+                    );
+            });
+            }
+            if ($searchFormDTO->produitType !== null) {
+                switch ($searchFormDTO->produitType) {
+                    case 'burger':
+                        $filtre['menu'] = $searchFormDTO->menu;
+                        break;
+                    case 'menu':
+                        $filtre['burger'] = $searchFormDTO->burger;
+                        break;
+                    
+                    default:
+                       
+                        break;
+                }
+            }
+            if ($searchFormDTO->datecommande) {
+                $filtre['datecommande'] = $searchFormDTO->datecommande;
+            }
+            var_dump($filtre);
+       
+        
         $commandesDTO= CommandeDTO::toEntityArray($commandes);
         $count= $this->commandeRepository->count();
         $nbrePages=ceil($count/self::limit);
@@ -32,7 +71,23 @@ class CommandeController extends AbstractController
         return $this->render('commande/list.html.twig', [
             'commandes' => $commandesDTO,
             'totalPages'=>$nbrePages,
-            'currentPage'=>$page
+            'currentPage'=>$page,
+            'formSearch' => $form->createView(),
         ]);
     }
+
+     $page=$request->query->get("page",1);
+        $offset=($page-1)*self::limit;
+        $commandes = $this->commandeRepository->findBy($filtre,["id"=>"DESC"],self::limit,$offset);
+        $commandesDTO= CommandeDTO::toEntityArray($commandes);
+        $count= $this->commandeRepository->count();
+        $nbrePages=ceil($count/self::limit);
+
+        return $this->render('commande/list.html.twig', [
+            'commandes' => $commandesDTO,
+            'totalPages'=>$nbrePages,
+            'currentPage'=>$page,
+            'formSearch' => $form->createView(),
+        ]);
+}
 }

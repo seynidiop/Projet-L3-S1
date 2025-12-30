@@ -19,15 +19,16 @@
                 <nav class="nav">
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') == 'app_commande_list' ? 'active' : '' }}" href="{{path('app_commande_list')}}">
                                 Commandes
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a>
+                            <a class="nav-link {{ app.request.attributes.get('_route') == 'app_dashboard' ? 'active' : '' }}" href="{{path('app_dashboard')}}">
                                 Tableau de bord
                             </a>
                         </li>
+                        
                     </ul>
                 </nav>
 

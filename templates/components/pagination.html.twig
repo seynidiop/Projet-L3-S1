@@ -1,5 +1,5 @@
 {% if totalPages > 1 %}
-<div class="pagination">
+<div class="custom-pagination">
     <div class="pagination-info">
         Page {{ currentPage }} sur {{ totalPages }}
     </div>
@@ -8,20 +8,20 @@
         {# Bouton Précédent #}
         
         {% if currentPage > 1 %}
-            <a href="{{ path(pathName, app.request.query.all|merge({page: currentPage - 1})) }}" class="btn btn-secondary btn-sm">
+            <a href="{{ path(pathName, app.request.query.all|merge({page: currentPage - 1})) }}" class="pagination-btn pagination-prev">
                 ← Précédent
             </a>
         {% else %}
-            <span class="btn btn-secondary btn-sm disabled">
+            <span class="pagination-btn pagination-prev disabled">
                 ← Précédent
             </span>
         {% endif %}
         
         {# Boutons de pages #}
-        <div class="btn-group" role="group">
+        <div class="pagination-numbers">
             {% for page in 1..totalPages %}
-                <a href="{{ path(pathName, app.request.query.all|merge({page: page})) }}" 
-                   class="btn btn-outline-primary btn-sm {{ page == currentPage ? 'active' : '' }}">
+                <a href="{{ path(pathName, app.request.query.all|merge({page: page})) }}"
+                   class="pagination-number {{ page == currentPage ? 'active' : '' }}">
                     {{ page }}
                 </a>
             {% endfor %}
@@ -29,11 +29,11 @@
         
         {# Bouton Suivant #}
         {% if currentPage < totalPages %}
-            <a href="{{ path(pathName, app.request.query.all|merge({page: currentPage + 1})) }}" class="btn btn-secondary btn-sm">
+            <a href="{{ path(pathName, app.request.query.all|merge({page: currentPage + 1})) }}" class="pagination-btn pagination-next">
                 Suivant →
             </a>
         {% else %}
-            <span class="btn btn-secondary btn-sm disabled">
+            <span class="pagination-btn pagination-next disabled">
                 Suivant →
             </span>
         {% endif %}

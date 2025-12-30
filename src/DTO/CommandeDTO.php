@@ -28,13 +28,13 @@ class CommandeDTO
         $dto->id = $commande->getId();
         $dto->nomClient = $commande->getClient() ? $commande->getClient()->getFirstName() : null;
         $dto->numeroClient = $commande->getClient() ? $commande->getClient()->getPhone() : null;
-        $dto->nature = $commande->getBurger() ? $commande->getBurger()->getName() : ($commande->getMenu() ? $commande->getMenu()->getNom() : null);
+        $dto->nature = $commande->getBurger() ? "Burger" : ($commande->getMenu() ? "Menu" : null);
         $dto->complement = $commande->getComplement() ? $commande->getComplement()->getName() : "Aucun";
         $dto->etat = $commande->getStatut();
         $dto->date = $commande->getDatecommande();
         $dto->montant = $commande->getMontanttotal() !== null ? (float)$commande->getMontanttotal() : null;
         $dto->type = $commande->getTypecons();
-        $dto->statut = $commande->getStatut();
+       
 
         return $dto;
     }
