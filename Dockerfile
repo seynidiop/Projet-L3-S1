@@ -32,8 +32,7 @@ WORKDIR /var/www/html
 # Copie du projet
 COPY . .
 
-# Permissions (CRITIQUE pour Symfony)
-RUN chown -R www-data:www-data var public
+
 
 # Installation des dépendances
 RUN composer install --no-dev --optimize-autoloader --no-interaction
