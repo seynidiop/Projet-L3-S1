@@ -49,4 +49,84 @@ class CommandeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+   public function getMostSoldBurger(): ?array
+{
+    return $this->createQueryBuilder('c')
+        ->select('b.name, COUNT(c.id)')
+        ->join('c.burger', 'b')
+        ->where('c.statut = :statut')
+        ->setParameter('statut', 'Terminé')
+        ->groupBy('b.id')
+        ->orderBy('COUNT(c.id)', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
+
+
+  public function countTodayCompletedOrders(): int
+{
+    $today = new \DateTimeImmutable('today');
+    $tomorrow = $today->modify('+1 day');
+
+    return (int) $this->createQueryBuilder('c')
+        ->select('COUNT(c.id)')
+        ->where('c.statut = :statut')
+        ->andWhere('c.datecommande >= :today')
+        ->andWhere('c.datecommande < :tomorrow')
+        ->setParameter('statut', 'Terminé')
+        ->setParameter('today', $today)
+        ->setParameter('tomorrow', $tomorrow)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+
+   public function getTodayCompletedTotal(): float
+{
+    $today = new \DateTimeImmutable('today');
+    $tomorrow = $today->modify('+1 day');
+
+    return (float) $this->createQueryBuilder('c')
+        ->select('SUM(c.montanttotal)')
+        ->where('c.statut = :statut')
+        ->andWhere('c.datecommande >= :today')
+        ->andWhere('c.datecommande < :tomorrow')
+        ->setParameter('statut', 'Terminé')
+        ->setParameter('today', $today)
+        ->setParameter('tomorrow', $tomorrow)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+
+   public function countEnCours(): int
+{
+    return (int) $this->createQueryBuilder('c')
+        ->select('COUNT(c.id)')
+        ->where('c.statut = :statut')
+        ->setParameter('statut', 'En cours')
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+
+public function getTop3MostSoldBurgers(): array
+{
+    return $this->createQueryBuilder('c')
+        ->select('b.name, COUNT(c.id)')
+        ->join('c.burger', 'b')
+        ->where('c.statut = :statut')
+        ->andWhere('c.burger IS NOT NULL')
+        ->setParameter('statut', 'Terminé')
+        ->groupBy('b.id')
+        ->orderBy('COUNT(c.id)', 'DESC')
+        ->setMaxResults(3)
+        ->getQuery()
+        ->getResult();
+}
+
+
+
 }

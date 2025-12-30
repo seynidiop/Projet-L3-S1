@@ -19,7 +19,7 @@
             <div class="stat-content">
                 <h3 class="stat-label">Commandes en cours</h3>
                 {# Replaced dynamic value with static random value #}
-                <p class="stat-value">17</p>
+                <p class="stat-value">{{ commandesEnCours }}</p>
                 <p class="stat-description">De la journée</p>
             </div>
         </div>
@@ -34,7 +34,7 @@
             <div class="stat-content">
                 <h3 class="stat-label">Commandes validées</h3>
                 {# Replaced dynamic value with static random value #}
-                <p class="stat-value">52</p>
+                <p class="stat-value">{{ commandesCompletes }}</p>
                 <p class="stat-description">De la journée</p>
             </div>
         </div>
@@ -50,7 +50,7 @@
             <div class="stat-content">
                 <h3 class="stat-label">Recettes journalières</h3>
                 {# Replaced dynamic value with static random value #}
-                <p class="stat-value">3 245 €</p>
+                <p class="stat-value">{{ todayTotal }} FCFA</p>
                 <p class="stat-description">Total du jour</p>
             </div>
         </div>
@@ -73,98 +73,25 @@
     </div>
 
     {# Burgers les plus vendus #}
-    <div class="best-sellers-section">
-        <h2 class="section-title">Burgers les plus vendus du jour</h2>
-        <div class="best-sellers-container">
-            {# Replaced dynamic data with static random burger data #}
-            <div class="burgers-list">
-                <div class="burger-item">
-                    <div class="burger-rank">1</div>
-                    <div class="burger-info">
-                        <h4 class="burger-name">Burger Signature</h4>
-                        <p class="burger-price">12.50 €</p>
-                    </div>
-                    <div class="burger-stats">
-                        <div class="burger-sales">
-                            <span class="sales-number">34</span>
-                            <span class="sales-label">ventes</span>
-                        </div>
-                        <div class="burger-bar">
-                            <div class="burger-bar-fill" style="width: 100%"></div>
-                        </div>
-                    </div>
-                </div>
+    <div class="top-burgers-section">
+    <h4 class="top-burgers-title">🍔 Top 3 burgers les plus vendus</h4>
+    
+    <ul class="burgers-list">
+        {% for burger in topBurgers %}
+            <li class="burger-item">
+                <span class="burger-name">{{ burger.name }}</span>
+                <span class="burger-badge">
+                    {{ burger[1] }} ventes
+                </span>
+            </li>
+        {% else %}
+            <li class="burger-item empty">
+                Aucune donnée disponible
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 
-                <div class="burger-item">
-                    <div class="burger-rank">2</div>
-                    <div class="burger-info">
-                        <h4 class="burger-name">Burger Fromage Deluxe</h4>
-                        <p class="burger-price">10.90 €</p>
-                    </div>
-                    <div class="burger-stats">
-                        <div class="burger-sales">
-                            <span class="sales-number">28</span>
-                            <span class="sales-label">ventes</span>
-                        </div>
-                        <div class="burger-bar">
-                            <div class="burger-bar-fill" style="width: 82%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="burger-item">
-                    <div class="burger-rank">3</div>
-                    <div class="burger-info">
-                        <h4 class="burger-name">Burger Poulet Crispy</h4>
-                        <p class="burger-price">9.50 €</p>
-                    </div>
-                    <div class="burger-stats">
-                        <div class="burger-sales">
-                            <span class="sales-number">23</span>
-                            <span class="sales-label">ventes</span>
-                        </div>
-                        <div class="burger-bar">
-                            <div class="burger-bar-fill" style="width: 68%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="burger-item">
-                    <div class="burger-rank">4</div>
-                    <div class="burger-info">
-                        <h4 class="burger-name">Burger Végétarien Bio</h4>
-                        <p class="burger-price">8.90 €</p>
-                    </div>
-                    <div class="burger-stats">
-                        <div class="burger-sales">
-                            <span class="sales-number">19</span>
-                            <span class="sales-label">ventes</span>
-                        </div>
-                        <div class="burger-bar">
-                            <div class="burger-bar-fill" style="width: 56%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="burger-item">
-                    <div class="burger-rank">5</div>
-                    <div class="burger-info">
-                        <h4 class="burger-name">Burger BBQ Smokehouse</h4>
-                        <p class="burger-price">11.50 €</p>
-                    </div>
-                    <div class="burger-stats">
-                        <div class="burger-sales">
-                            <span class="sales-number">14</span>
-                            <span class="sales-label">ventes</span>
-                        </div>
-                        <div class="burger-bar">
-                            <div class="burger-bar-fill" style="width: 41%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {# Recent Activity Section - Optional #}
     <div class="recent-activity-section">
