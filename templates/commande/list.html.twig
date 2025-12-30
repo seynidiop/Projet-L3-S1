@@ -51,6 +51,22 @@
                             <td>{{ commande.montant }}</td>
                             <td>{{ commande.type }}</td>
                             <td>{{ commande.etat }}</td>
+                             <td>
+                                {% if commande.etat != 'Terminé' %}
+                                    <a href="{{ path('app_commande_terminer', { id: commande.id }) }}"
+                                    class="btn btn-success btn-sm"
+                                    onclick="return confirm('Marquer cette commande comme terminée ?');">
+                                        <i class="bi bi-check-circle"></i> Terminer
+                                    </a>
+                                     <a href="{{ path('app_commande_annuler', { id: commande.id }) }}"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Voulez-vous vraiment annuler cette commande ?');">
+                                            <i class="bi bi-x-circle"></i> Annuler
+                                        </a>
+                                {% else %}
+                                    <span class="badge bg-secondary">Terminée</span>
+                                {% endif %}
+                            </td>
                             
                         </tr>
                     {% endfor %}
