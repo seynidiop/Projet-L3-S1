@@ -1,49 +1,43 @@
-# Image PHP 8.4 avec Apache
-FROM php:8.4-apache
+FROM php:8.4-cli
 
-# Installation des dépendances système
+WORKDIR /app
+
 RUN apt-get update && apt-get install -y \
-    libicu-dev \
-    libpq-dev \
-    libzip-dev \
-    zip \
-    unzip \
     git \
-    curl \
-    && docker-php-ext-install intl pdo pdo_pgsql zip \
+    unzip \
+    libicu-dev \
+    libzip-dev \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libpq-dev \
+    && docker-php-ext-install \
+        intl \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        zip \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Activation de mod_rewrite
-RUN a2enmod rewrite
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm composer-setup.php
 
-# Configuration d'Apache pour Symfony (/public)
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
-    /etc/apache2/sites-available/*.conf \
-    /etc/apache2/apache2.conf
-
-# Installation de Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Dossier de travail
-WORKDIR /var/www/html
-
-# Copie du projet
 COPY . .
 
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
 
-# Création des dossiers Symfony + permissions
-RUN mkdir -p var public \
-    && chown -R www-data:www-data var public
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-scripts
 
+RUN php bin/console importmap:install \
+    && php bin/console asset-map:compile
 
-# Installation des dépendances
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Nettoyage et warmup du cache prod (OBLIGATOIRE)
-RUN php bin/console cache:clear --env=prod
-RUN php bin/console cache:warmup --env=prod
-
-# Port pour Render
 EXPOSE 10000
+
+CMD ["sh", "-c", "php -S 0.0.0.0:$PORT -t public"]
